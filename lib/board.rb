@@ -1,13 +1,24 @@
 class Board
 
+  WIN_COMBINATIONS = [[0, 1, 2],
+                      [3, 4, 5],
+                      [6, 7, 8],
+                      [0, 4, 8],
+                      [2, 4, 6],
+                      [0, 3, 6],
+                      [1, 4, 7],
+                      [2, 5, 8]]
+
 attr_accessor :cells
 
+@cells = []
+
 def initialize
-  @cells = Array.new(9, " ")
+  self.cells = Array.new(9, " ")
 end
 
 def reset!
-  @cells = Array.new(9, " ")
+  self.cells = Array.new(9, " ")
 end
 
 def display
@@ -20,16 +31,16 @@ end
 
 def position(input)
   index = input.to_i - 1
-  return @cells[index]
+  return self.cells[index]
 end
 
 def full?
-  @cells.none?{|i| i == " "}
+  self.cells.none?{|i| i == " "}
 end
 
 def turn_count
   turn = 0
-  @cells.each do |cells_move|
+  self.cells.each do |cells_move|
     if cells_move == "X" || cells_move == "O"
       turn +=1
     end
@@ -39,7 +50,7 @@ end
 
 def taken?(input)
   index = input.to_i - 1
-  if @cells[index] == "" || @cells[index] == " " || @cells[index] == nil
+  if self.cells[index] == "" || self.cells[index] == " " || self.cells[index] == nil
     false
   else
     true
@@ -54,9 +65,15 @@ def valid_move?(input)
   end
 end
 
+def win_game?(symbol)
+  WIN_COMBINATIONS.any? do |combo|
+    return true if combo.all? { |a| @cells[a] == symbol }
+  end
+end
+
 def update(input, player)
   index = input.to_i - 1
-  @cells[index] = player.token
+  self.cells[index] = player.token
 end
 
 end

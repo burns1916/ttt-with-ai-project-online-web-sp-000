@@ -1,3 +1,56 @@
 #!/usr/bin/env ruby
 
 require_relative '../config/environment'
+
+puts "Welcome to Tic-Tac-Toe!"
+
+def start_of_game
+input = nil
+puts "Press 0 if you want to watch the computer play itself"
+puts "Press 1 if you would like to play the computer"
+puts "Press 2 if you would like to play another human"
+input = gets.strip
+  case input
+  when "0"
+    Game.new(Players::Computer.new("X"), Players::Computer.new("O"), board = Board.new).play
+    puts "Play Again?"
+    play_again
+  when "1"
+    first = nil
+    puts "Would you like to go first?"
+    puts "enter: [y/n]"
+    first = gets.strip
+      case first
+      when "y"
+        Game.new(Players::Human.new("X"), Players::Computer.new("O"), board = Board.new).play
+        puts "Play Again?"
+        play_again
+      when "n"
+        Game.new(Players::Computer.new("X"), Players::Human.new("O"), board = Board.new).play
+        puts "Play Again"
+        play_again
+      else
+        puts "Please enter valid selection"
+      end
+    when "2"
+      Game.new(Players::Human.new("X"), Players::Human.new("O"), board = Board.new).play
+    else
+      puts "Please enter valid selection"
+      start_of_game
+    end
+  end
+
+  def play_again
+    puts "[y/n]"
+    input = gets.strip
+    case input
+    when "y"
+      start_of_game
+    when "n"
+      puts "Cya Later!!"
+    else
+      puts "Please enter valid selection"
+      play_again
+    end
+  end
+start_of_game

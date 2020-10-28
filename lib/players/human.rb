@@ -3,7 +3,7 @@ module Players
 
 attr_accessor :input
 
-    def move(input)
+    def move(board)
       input = gets.chomp
       input
     end
